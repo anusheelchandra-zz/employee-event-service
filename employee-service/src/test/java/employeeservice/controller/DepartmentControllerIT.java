@@ -2,6 +2,7 @@ package employeeservice.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import employeeservice.domain.DepartmentDTO;
+import employeeservice.domain.DepartmentRequestDTO;
 import employeeservice.entity.Department;
 import employeeservice.exception.EntityAlreadyExistsException;
 import employeeservice.exception.handler.ErrorResponse;
@@ -43,10 +44,12 @@ class DepartmentControllerIT {
 
   @Test
   public void shouldCreateDepartment() throws Exception {
+    var requestDTO = DepartmentRequestDTO.builder().name("finance").build();
     var mvcResult =
         mockMvc
             .perform(
-                MockMvcRequestBuilders.post("/department/{department}", "finance")
+                MockMvcRequestBuilders.post("/department")
+                    .content(objectMapper.writeValueAsString(requestDTO))
                     .contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(MockMvcResultMatchers.status().isCreated())
             .andReturn();
@@ -57,10 +60,12 @@ class DepartmentControllerIT {
 
   @Test
   public void shouldThrowExceptionWhileCreatingAlreadyExistingDepartment() throws Exception {
+    var requestDTO = DepartmentRequestDTO.builder().name("finance").build();
     var mvcResult =
         mockMvc
             .perform(
-                MockMvcRequestBuilders.post("/department/{department}", "test")
+                MockMvcRequestBuilders.post("/department")
+                    .content(objectMapper.writeValueAsString(requestDTO))
                     .contentType(MediaType.APPLICATION_JSON_VALUE))
             .andReturn();
     commonMvcResultAsserts(
@@ -70,10 +75,12 @@ class DepartmentControllerIT {
   @ParameterizedTest
   @ValueSource(strings = {"Finance123", "Finance-", "345", "#@#@#", " "})
   public void shouldThrowExceptionWhenDepartmentIsInvalid(String department) throws Exception {
+    var requestDTO = DepartmentRequestDTO.builder().name(department).build();
     var mvcResult =
         mockMvc
             .perform(
-                MockMvcRequestBuilders.post("/department/{department}", department)
+                MockMvcRequestBuilders.post("/department")
+                    .content(objectMapper.writeValueAsString(requestDTO))
                     .contentType(MediaType.APPLICATION_JSON_VALUE))
             .andReturn();
     commonMvcResultAsserts(mvcResult, ConstraintViolationException.class, "Wrong input data");

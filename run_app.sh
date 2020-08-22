@@ -10,12 +10,10 @@ docker pull anusheelchandra/employee-service
 echo "starting the applciation .Plesse wait ......"
 docker-compose up -d
 
-cnt=`docker ps | grep event-service_employee-service | awk '{print $1}'`
-d=`docker logs $cnt| grep "Started EmployeeServiceApplication"|wc -l`
-echo "waiting for application to start in 3 secs .."
-sleep 1
-echo "waiting for application to start in 2 secs .."
-sleep 1
+echo "waiting for application to start in 10 secs .."
+sleep 10
+echo "waiting for application to start in 5 secs .."
+sleep 5
 echo "waiting for application to start in 1 secs .."
 sleep 1
 
