@@ -1,6 +1,7 @@
 package employeeservice.domain;
 
 import io.swagger.annotations.ApiModelProperty;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,6 +16,7 @@ import lombok.NonNull;
 public class DepartmentRequestDTO {
 
   @NonNull
+  @NotEmpty
   @Pattern(regexp = Constant.DEPARTMENT_REGEX, message = "department must only have alphabets")
   @ApiModelProperty(notes = "department must be only alphabets", required = true)
   private String name;

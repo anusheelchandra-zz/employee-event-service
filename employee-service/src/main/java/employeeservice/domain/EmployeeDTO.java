@@ -26,6 +26,7 @@ public class EmployeeDTO {
   private String firstName;
 
   @NotNull
+  @NotEmpty
   @Pattern(regexp = Constant.NAME_REGEX, message = "last name must only have alphabets")
   @ApiModelProperty(notes = "lastName must be only alphabets", required = true)
   private String lastName;
