@@ -40,6 +40,6 @@ Please refer below link to the parent project README file for running it inside 
 
 
 ### [Tech Stack](#tech-stack)
-Java 11, Spring Boot, Spring Cloud Stream, Spring Amqp, RabbitMQ, Maven, Lombok, Mockito, Junit5, AssertJ, 
+Java 11, Swagger Spring Boot, Spring Cloud Stream, Spring Amqp, RabbitMQ, Maven, Lombok, Mockito, Junit5, AssertJ, 
 Spring Data JPA and MySQL and H2 database(testing) for persistence and docker and docker-compose.
 This microservice has been built with IntelliJ IDE and formatted with google-java-format.

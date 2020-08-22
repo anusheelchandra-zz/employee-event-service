@@ -9,11 +9,12 @@ The spring boot java microservice allows you run create departments and then add
   * [Screen-shot](#screen-shot)
   
 ###  [Assumptions](#assumptions)  
-1. First there are multiple validation i have added to allow valid data for department and employee attributes.
-2. Email of an employee cannot be updated as it is unique.
-3. If you try to create or update department of an employee which doesnt exist , error is returned.
-4. This service publishe an event to RabbitMQ queue for each CREATE, UPDATE and DELETE.
-5. There is basic authentication for Employee Controller which take in account the login and role for operations.
+1. This service only published employee UUID, Type(Create, Update or Delete) and timestamp.
+2. First there are multiple validation i have added to allow valid data for department and employee attributes.
+3. Email of an employee cannot be updated as it is unique.
+4. If you try to create or update department of an employee which doesnt exist , error is returned.
+5. This service publishe an event to RabbitMQ queue for each CREATE, UPDATE and DELETE.
+6. There is basic authentication for Employee Controller which take in account the login and role for operations.
   
 ###  [What does it do ?](#technical-details)
 This api allows one to create departments. And then allows one to Create, Update and Delete employees mapped to department.
@@ -41,7 +42,7 @@ Please refer below link to the parent project README file for running it inside 
 
 
 ### [Tech Stack](#tech-stack)
-Java 11, Spring Boot, Spring Cloud Stream, Spring Amqp, RabbitMQ, Maven, Lombok, Mockito, Junit5, AssertJ, 
+Java 11, Swagger, Spring Boot, Spring Cloud Stream, Spring Amqp, RabbitMQ, Maven, Lombok, Mockito, Junit5, AssertJ, 
 Spring Data JPA and MySQL and H2 database(testing) for persistence and docker and docker-compose.
 This microservice has been built with IntelliJ IDE and formatted with google-java-format.
   
