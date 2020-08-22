@@ -51,4 +51,4 @@ This microservice has been built with IntelliJ IDE and formatted with google-jav
 
 
 ### [Screen-shot](#screen-shot)
-![alt text](https://github.com/anusheelchandra/employee-event-service/event-service/blob/master/src/test/resources/ScreenShot.png)
+![alt text](https://github.com/anusheelchandra/employee-event-service/blob/master/event-service/src/test/resources/ScreenShot.png)
