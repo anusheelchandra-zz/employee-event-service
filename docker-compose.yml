@@ -50,7 +50,7 @@ services:
       - net2
 
   employee-service:
-    image: employee-service:latest
+    image: anusheelchandra/employee-service:latest
     environment:
       SPRING_PROFILES_ACTIVE: prod
       SPRING_DATASOURCE_URL: jdbc:mysql://employee-db-service:3306/employeedb
@@ -68,7 +68,7 @@ services:
       - net3
 
   event-service:
-    image: event-service:latest
+    image: anusheelchandra/event-service:latest
     environment:
       SPRING_PROFILES_ACTIVE: prod
       SPRING_DATASOURCE_URL: jdbc:mysql://event-db-service:3306/eventdb

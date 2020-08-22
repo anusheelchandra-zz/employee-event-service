@@ -23,7 +23,7 @@ services:
       - eventdb:/var/lib/mysql2
 
   event-service:
-    image: event-service:latest
+    image: anusheelchandra/event-service:latest
     environment:
       SPRING_PROFILES_ACTIVE: prod
       SPRING_DATASOURCE_URL: jdbc:mysql://event-db-service:3306/eventdb

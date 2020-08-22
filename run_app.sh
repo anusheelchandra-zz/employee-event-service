@@ -1,37 +1,8 @@
-cd ./event-service
+echo "pulling event-service from docker hub"
+docker pull anusheelchandra/event-service
 
-echo "Building event-service....."
+echo "pulling employee-service from docker hub"
+docker pull anusheelchandra/employee-service
 
-mvn clean install -DskipTests=true
-
-echo "Built event-service jar successfully"
-
-echo "Building event-service docker image...."
-
-docker build -t event-service .
-
-echo "Built event-service docker image successfully"
-
-
-cd ./..
-
-cd ./employee-service
-
-echo "Building employee-service....."
-
-mvn clean install -DskipTests=true
-
-echo "Built employee-service jar successfully"
-
-echo "Builing event-service docker image....."
-
-docker build -t employee-service .
-
-echo "Built event-service docker image successfully"
-
-
-cd ./..
-
-echo "Starting  employee-event-service....."
-
+echo "starting the applciation .PLesse wait ......"
 docker-compose up -d
