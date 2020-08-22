@@ -6,10 +6,6 @@ spring:
       bindings:
         output:
           destination: event-exchange
-        input:
-          destination: event-exchange
-          group: event-queue
-
   rabbitmq:
     host: event-rabbitmq
     port: 5672
