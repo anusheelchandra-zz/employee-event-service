@@ -1,6 +1,6 @@
 # Event-service
 The spring boot java microservice allows you run read all the event publishe for actions taken on employee i.e. CREATE, UPDATE and DELETE.
-This service listens to all the event published by [Employee-Service](https://github.com/anusheelchandra/employee-service) using RabbitMQ exchange.
+This service listens to all the event published by [Employee-Service](https://github.com/anusheelchandra/employee-event-service/tree/master/employee-service) using RabbitMQ exchange.
 
 ### Topics
   * [Assumptions](#assumptions)
@@ -31,10 +31,14 @@ Local Run with test profile
    2. mvn spring-boot:run -Dspring.profiles.active=test 
     
 ```
+
 Docker
 ```  
-Please refer to the parent project README file.
+Please refer below link to the parent project README file for running it inside Docker.
 ```
+[Employee-Event-Service](https://github.com/anusheelchandra/employee-event-service)
+
+
 ### [Tech Stack](#tech-stack)
 Java 11, Spring Boot, Spring Cloud Stream, Spring Amqp, RabbitMQ, Maven, Lombok, Mockito, Junit5, AssertJ, 
 Spring Data JPA and MySQL and H2 database(testing) for persistence and docker and docker-compose.
