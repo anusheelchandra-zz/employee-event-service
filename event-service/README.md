@@ -1,6 +1,7 @@
 # Event-service
 The spring boot java microservice allows you run read all the event publishe for actions taken on employee i.e. CREATE, UPDATE and DELETE.
 This service listens to all the event published by [Employee-Service](https://github.com/anusheelchandra/employee-event-service/tree/master/employee-service) using RabbitMQ exchange.
+It exposes a Rest Api for interaction, check Swagger for more details of Api and Models.
 
 ### Topics
   * [Assumptions](#assumptions)
@@ -38,8 +39,16 @@ Please refer below link to the parent project README file for running it inside 
 ```
 [Employee-Event-Service](https://github.com/anusheelchandra/employee-event-service)
 
+```
+Swagger: 
+        localhost:8081
+``` 
 
 ### [Tech Stack](#tech-stack)
 Java 11, Swagger Spring Boot, Spring Cloud Stream, Spring Amqp, RabbitMQ, Maven, Lombok, Mockito, Junit5, AssertJ, 
 Spring Data JPA and MySQL and H2 database(testing) for persistence and docker and docker-compose.
 This microservice has been built with IntelliJ IDE and formatted with google-java-format.
+
+
+### [Screen-shot](#screen-shot)
+![alt text](https://github.com/anusheelchandra/employee-event-service/event-service/blob/master/src/test/resources/ScreenShot.png)
