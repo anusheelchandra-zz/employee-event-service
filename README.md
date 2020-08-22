@@ -8,10 +8,18 @@ For for more details please click on below two links where you have details READ
 
 ###  [How to use it ?](#guide)
 
-Docker 
+Docker Run 
 ```
  Run the below command from parent project directory :
 
  sh run_app.sh
+
+```
+
+Docker Stop 
+```
+ Run the below command from parent project directory :
+
+ sh stop_app.sh
 
 ```
