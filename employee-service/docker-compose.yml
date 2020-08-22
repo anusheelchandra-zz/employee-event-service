@@ -1,0 +1,41 @@
+version: '3.3'
+
+services:
+  event-rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - 5672:5672
+      - 15672:15672
+    expose:
+      - 5672
+
+  employee-db-service:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: temppassword
+      MYSQL_DATABASE: employeedb
+    ports:
+      - 13306:3306
+    expose:
+      - 3306
+    volumes:
+      - employeedb:/var/lib/mysql
+
+  employee-service:
+    image: employee-service:latest
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SPRING_DATASOURCE_URL: jdbc:mysql://employee-db-service:3306/employeedb
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: temppassword
+    ports:
+      - 8080:8080
+    expose:
+      - 8080
+    depends_on:
+      - employee-db-service
+      - event-rabbitmq
+
+volumes:
+  employeedb:

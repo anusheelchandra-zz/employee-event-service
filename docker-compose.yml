@@ -1,0 +1,89 @@
+version: '3.3'
+
+networks:
+  net1:
+    driver: bridge
+  net2:
+    driver: bridge
+  net3:
+    driver: bridge
+
+services:
+  event-rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - 5672:5672
+      - 15672:15672
+    expose:
+      - 5672
+    networks:
+      - net3
+
+  employee-db-service:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: temppassword
+      MYSQL_DATABASE: employeedb
+    ports:
+      - 13306:3306
+    expose:
+      - 3306
+    volumes:
+      - employeedb:/var/lib/mysql
+    networks:
+      - net1
+
+  event-db-service:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: temppassword
+      MYSQL_DATABASE: eventdb
+    ports:
+      - 13307:3306
+    expose:
+      - 3306
+    volumes:
+      - eventdb:/var/lib/mysql2
+    networks:
+      - net2
+
+  employee-service:
+    image: employee-service:latest
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SPRING_DATASOURCE_URL: jdbc:mysql://employee-db-service:3306/employeedb
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: temppassword
+    ports:
+      - 8080:8080
+    expose:
+      - 8080
+    depends_on:
+      - employee-db-service
+      - event-rabbitmq
+    networks:
+      - net1
+      - net3
+
+  event-service:
+    image: event-service:latest
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SPRING_DATASOURCE_URL: jdbc:mysql://event-db-service:3306/eventdb
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: temppassword
+    ports:
+      - 8081:8081
+    expose:
+      - 8081
+    depends_on:
+      - event-db-service
+    networks:
+      - net2
+      - net3
+
+volumes:
+  employeedb:
+  eventdb:

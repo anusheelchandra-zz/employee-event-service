@@ -1,0 +1,63 @@
+server:
+  port: 8080
+spring:
+  cloud:
+    stream:
+      bindings:
+        output:
+          destination: event-exchange
+        input:
+          destination: event-exchange
+          group: event-queue
+
+  rabbitmq:
+    host: event-rabbitmq
+    port: 5672
+    username: guest
+    password: guest
+
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://employee-db-service:3306/employeedb?useSSL=false
+    username: root
+    password: temppassword
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+---
+spring.profiles: prod
+---
+spring.profiles: test
+
+spring:
+  cloud:
+    stream:
+      bindings:
+        input:
+          destination: event-exchange
+          group: event-queue
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:employeedb
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+      path: /h2-eventdb
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
