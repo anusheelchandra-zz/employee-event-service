@@ -2,6 +2,11 @@
 The spring boot java microservice allows you run create departments and then add, update and delete employee to it.
 It exposes a Rest Api for interaction, check Swagger for more details of Api and Models.
 
+```
+Swagger: 
+        localhost:8080
+``` 
+
 ### Topics
   * [Assumptions](#assumptions)
   * [What does it do ?](#technical-details)
@@ -24,7 +29,7 @@ For every Create, Update and Delete, an event is published to another microservi
 
 ###  [How to use it ?](#guide)
 
-Local Run with test profile
+Local Run with test profile from employee-service project
 ```
    1. mvn clean install -DskipTests=True
    
@@ -32,7 +37,7 @@ Local Run with test profile
     a. docker pull rabbitmq:3-management    
     b. docker run -d --hostname my-rabbit --name my-rabbit -p 15672:15672 -p 5672:5672 rabbitmq:3-management
    
-   2. mvn spring-boot:run -Dspring.profiles.active=test 
+   2. mvn spring-boot:run -Drun.jvmArguments="-Dspring.profiles.active=test" 
     
 ```
 
@@ -41,11 +46,6 @@ Docker
 Please refer below link to the parent project README file for running it inside Docker.
 ```
 [Employee-Event-Service](https://github.com/anusheelchandra/employee-event-service)
-
-```
-Swagger: 
-        localhost:8080
-``` 
 
 ### [Tech Stack](#tech-stack)
 Java 11, Swagger, Spring Boot, Spring Cloud Stream, Spring Amqp, RabbitMQ, Maven, Lombok, Mockito, Junit5, AssertJ, 

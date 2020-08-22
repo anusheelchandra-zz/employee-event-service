@@ -12,7 +12,6 @@ import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import javax.validation.ConstraintViolationException;
@@ -133,7 +132,9 @@ class EventControllerIT {
     var create = buildEvent(Action.CREATE, "2020-08-18T10:24:58.62956");
     var update = buildEvent(Action.UPDATE, "2020-08-18T11:24:58.62956");
     var delete = buildEvent(Action.DELETE, "2020-08-18T12:24:58.62956");
-    eventRepository.saveAll(List.of(create, update, delete));
+    eventRepository.save(create);
+    eventRepository.save(update);
+    eventRepository.save(delete);
   }
 
   private Event buildEvent(Action action, String timestamp) {

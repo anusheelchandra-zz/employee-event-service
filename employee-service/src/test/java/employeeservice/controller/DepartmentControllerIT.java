@@ -9,7 +9,6 @@ import employeeservice.exception.handler.ErrorResponse;
 import employeeservice.repository.DepartmentRepository;
 import employeeservice.service.DepartmentService;
 import java.io.UnsupportedEncodingException;
-import javax.validation.ConstraintViolationException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,6 +25,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 @ActiveProfiles("test")
 @SpringBootTest
@@ -60,7 +60,7 @@ class DepartmentControllerIT {
 
   @Test
   public void shouldThrowExceptionWhileCreatingAlreadyExistingDepartment() throws Exception {
-    var requestDTO = DepartmentRequestDTO.builder().name("finance").build();
+    var requestDTO = DepartmentRequestDTO.builder().name("test").build();
     var mvcResult =
         mockMvc
             .perform(
@@ -69,11 +69,11 @@ class DepartmentControllerIT {
                     .contentType(MediaType.APPLICATION_JSON_VALUE))
             .andReturn();
     commonMvcResultAsserts(
-        mvcResult, EntityAlreadyExistsException.class, "Department already exists with name");
+        mvcResult, EntityAlreadyExistsException.class, "Department already exists with name: test");
   }
 
   @ParameterizedTest
-  @ValueSource(strings = {"Finance123", "Finance-", "345", "#@#@#", " "})
+  @ValueSource(strings = {"Finance123", "Finance-", "345", "#@#@#", " ", ""})
   public void shouldThrowExceptionWhenDepartmentIsInvalid(String department) throws Exception {
     var requestDTO = DepartmentRequestDTO.builder().name(department).build();
     var mvcResult =
@@ -83,10 +83,8 @@ class DepartmentControllerIT {
                     .content(objectMapper.writeValueAsString(requestDTO))
                     .contentType(MediaType.APPLICATION_JSON_VALUE))
             .andReturn();
-    commonMvcResultAsserts(mvcResult, ConstraintViolationException.class, "Wrong input data");
+    commonMvcResultAsserts(mvcResult, MethodArgumentNotValidException.class, "Wrong input data");
     Assertions.assertThat(mvcResult.getResolvedException()).isNotNull();
-    Assertions.assertThat(mvcResult.getResolvedException().getMessage())
-        .contains("department must only have alphabets");
   }
 
   @AfterEach

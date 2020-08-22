@@ -3,6 +3,11 @@ The spring boot java microservice allows you run read all the event publishe for
 This service listens to all the event published by [Employee-Service](https://github.com/anusheelchandra/employee-event-service/tree/master/employee-service) using RabbitMQ exchange.
 It exposes a Rest Api for interaction, check Swagger for more details of Api and Models.
 
+```
+Swagger: 
+        localhost:8081
+``` 
+
 ### Topics
   * [Assumptions](#assumptions)
   * [What does it do ?](#technical-details)
@@ -21,7 +26,7 @@ Events are listened and persisted for Create, Update and Delete done on employee
 
 ###  [How to use it ?](#guide)
 
-Local Run with test profile
+Local Run with test profile from event-service project :
 ```
    1. mvn clean install -DskipTests=True
    
@@ -29,7 +34,7 @@ Local Run with test profile
     a. docker pull rabbitmq:3-management    
     b. docker run -d --hostname my-rabbit --name my-rabbit -p 15672:15672 -p 5672:5672 rabbitmq:3-management
    
-   2. mvn spring-boot:run -Dspring.profiles.active=test 
+   2. mvn spring-boot:run -Drun.jvmArguments="-Dspring.profiles.active=test" 
     
 ```
 
@@ -39,10 +44,6 @@ Please refer below link to the parent project README file for running it inside 
 ```
 [Employee-Event-Service](https://github.com/anusheelchandra/employee-event-service)
 
-```
-Swagger: 
-        localhost:8081
-``` 
 
 ### [Tech Stack](#tech-stack)
 Java 11, Swagger Spring Boot, Spring Cloud Stream, Spring Amqp, RabbitMQ, Maven, Lombok, Mockito, Junit5, AssertJ, 

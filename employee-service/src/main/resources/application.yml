@@ -26,7 +26,7 @@ spring:
 ---
 spring.profiles: prod
 ---
-spring.profiles: test
+spring.profiles: [test, default]
 
 spring:
   cloud:
@@ -50,7 +50,7 @@ spring:
   h2:
     console:
       enabled: true
-      path: /h2-eventdb
+      path: /h2-employeedb
   jpa:
     hibernate:
       ddl-auto: create-drop

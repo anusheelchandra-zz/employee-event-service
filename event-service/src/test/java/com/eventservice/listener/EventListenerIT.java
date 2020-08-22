@@ -2,6 +2,7 @@ package com.eventservice.listener;
 
 import com.eventservice.domain.Action;
 import com.eventservice.domain.message.EventMessage;
+import com.eventservice.exception.EntityNotFoundException;
 import com.eventservice.repository.EventRepository;
 import com.eventservice.service.EventService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.core.Binding;
@@ -22,6 +24,8 @@ import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.test.context.ActiveProfiles;
 
+@Disabled(
+    "Manually execute with RabbitMQ running or started using : docker run -d --hostname my-rabbit --name my-rabbit -p 15672:15672 -p 5672:5672 rabbitmq:3-management")
 @ActiveProfiles("test")
 @EnableBinding(Source.class)
 @SpringBootTest
@@ -80,8 +84,9 @@ class EventListenerIT {
     source.output().send(MessageBuilder.withPayload(eventMessage).build());
     template.receive(queue.getName());
 
-    var eventsByEmployeeUuid = eventService.getAllEventsByEmployeeUuid(EMP_UUID);
-    Assertions.assertThat(eventsByEmployeeUuid).isEmpty();
+    Assertions.assertThatThrownBy(() -> eventService.getAllEventsByEmployeeUuid(EMP_UUID))
+        .isInstanceOf(EntityNotFoundException.class)
+        .hasMessageContaining("No events found for uuid");
   }
 
   @Test

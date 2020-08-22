@@ -19,6 +19,7 @@ import javax.validation.ConstraintViolationException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -27,6 +28,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -34,6 +36,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
+@Disabled(
+    "Manually execute with RabbitMQ running or started using : docker run -d --hostname my-rabbit --name my-rabbit -p 15672:15672 -p 5672:5672 rabbitmq:3-management")
 @ActiveProfiles("test")
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -89,6 +93,34 @@ class EmployeeControllerIT {
         mvcResult, EntityNotFoundException.class, HttpStatus.NOT_FOUND, "Entity not found");
   }
 
+  @Test
+  public void shouldThrowExceptionWhileTryingToUpdateEmployeeWithoutAuthentication()
+      throws Exception {
+    var mvcResult =
+        mockMvc
+            .perform(
+                MockMvcRequestBuilders.put("/employee/{uuid}", persistedEmployee.getId())
+                    .contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
+    Assertions.assertThat(mvcResult.getResponse()).isNotNull();
+    Assertions.assertThat(mvcResult.getResponse().getErrorMessage()).isNotNull();
+    Assertions.assertThat(mvcResult.getResponse().getErrorMessage()).isEqualTo("Unauthorized");
+  }
+
+  @Test
+  public void shouldThrowExceptionWhileTryingToDeleteEmployeeWithoutAuthentication()
+      throws Exception {
+    var mvcResult =
+        mockMvc
+            .perform(
+                MockMvcRequestBuilders.delete("/employee/{uuid}", persistedEmployee.getId())
+                    .contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
+    Assertions.assertThat(mvcResult.getResponse()).isNotNull();
+    Assertions.assertThat(mvcResult.getResponse().getErrorMessage()).isNotNull();
+    Assertions.assertThat(mvcResult.getResponse().getErrorMessage()).isEqualTo("Unauthorized");
+  }
+
   @ParameterizedTest
   @ValueSource(strings = {"d881e278-9148", "123", " "})
   public void shouldThrowExceptionWhileGettingEmployeeWithInvalidUuid(String uuid)
@@ -104,6 +136,7 @@ class EmployeeControllerIT {
   }
 
   @Test
+  @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
   public void shouldDeleteEmployeeByUuid() throws Exception {
     var uuid = persistedEmployee.getId();
     mockMvc
@@ -116,6 +149,7 @@ class EmployeeControllerIT {
   }
 
   @Test
+  @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
   public void shouldThrowExceptionWhileDeletingEmployeeByUuidWhenUuidIsUnknown() throws Exception {
     var mvcResult =
         mockMvc
@@ -129,6 +163,7 @@ class EmployeeControllerIT {
 
   @ParameterizedTest
   @ValueSource(strings = {"d881e278-9148", "123", " "})
+  @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
   public void shouldThrowExceptionWhileDeletingEmployeeByUuidWhenUuidIsInvalid(String uuid)
       throws Exception {
     var mvcResult =
@@ -142,6 +177,7 @@ class EmployeeControllerIT {
   }
 
   @Test
+  @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
   public void shouldCreateNewEmployee() throws Exception {
     var employeeDTO =
         TestUtil.buildEmployeeDTO(
@@ -167,6 +203,7 @@ class EmployeeControllerIT {
   }
 
   @Test
+  @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
   public void shouldThrowExceptionWhileCreateNewEmployeeWithExistingEmail() throws Exception {
     var employeeDTO =
         TestUtil.buildEmployeeDTO(
@@ -192,6 +229,7 @@ class EmployeeControllerIT {
 
   @ParameterizedTest
   @ValueSource(strings = {"John123", "John-", "123", "#@#@#", " "})
+  @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
   public void shouldThrowExceptionWhileCreatingEmployeeWithInvalidFirstName(String firstName)
       throws Exception {
     var employeeDTO =
@@ -202,6 +240,7 @@ class EmployeeControllerIT {
 
   @ParameterizedTest
   @ValueSource(strings = {"John123", "John-", "123", "#@#@#", " "})
+  @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
   public void shouldThrowExceptionWhileCreatingEmployeeWithInvalidLastName(String lastName)
       throws Exception {
     var employeeDTO =
@@ -212,6 +251,7 @@ class EmployeeControllerIT {
 
   @ParameterizedTest
   @ValueSource(strings = {"Finance123", "Finance-", "345", "#@#@#", " "})
+  @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
   public void shouldThrowExceptionWhileCreatingEmployeeWithInvalidDepartment(String department)
       throws Exception {
     var employeeDTO =
@@ -221,6 +261,7 @@ class EmployeeControllerIT {
 
   @ParameterizedTest
   @ValueSource(strings = {"2000-12-32", "20000-12-31", "2000-13-31", "date", "#@#@#", " "})
+  @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
   public void shouldThrowExceptionWhileCreatingEmployeeWithInvalidDateOfBirth(String dateOfBirth)
       throws Exception {
     var employeeDTO =
@@ -241,6 +282,7 @@ class EmployeeControllerIT {
         "email@111.222.333.44444",
         " "
       })
+  @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
   public void shouldThrowExceptionWhileCreatingEmployeeWithInvalidEmail(String email)
       throws Exception {
     var employeeDTO =
@@ -251,6 +293,7 @@ class EmployeeControllerIT {
 
   @ParameterizedTest
   @ValueSource(strings = {"d881e278-9148", "123", " "})
+  @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
   public void shouldThrowExceptionWhileUpdatingEmployeeWhenUuidIsInvalid(String uuid)
       throws Exception {
     var employeeDTO = EmployeeMapper.toEmployeeDTO(persistedEmployee);
@@ -267,6 +310,7 @@ class EmployeeControllerIT {
   }
 
   @Test
+  @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
   public void shouldUpdateExistingEmployeeForFirstName() throws Exception {
     var employeeDTO = EmployeeMapper.toEmployeeDTO(persistedEmployee);
     employeeDTO.setFirstName("newJohn");
@@ -274,6 +318,7 @@ class EmployeeControllerIT {
   }
 
   @Test
+  @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
   public void shouldUpdateExistingEmployeeForLastName() throws Exception {
     var employeeDTO = EmployeeMapper.toEmployeeDTO(persistedEmployee);
     employeeDTO.setLastName("newLast");
@@ -281,6 +326,7 @@ class EmployeeControllerIT {
   }
 
   @Test
+  @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
   public void shouldUpdateExistingEmployeeForDateOfBirth() throws Exception {
     var employeeDTO = EmployeeMapper.toEmployeeDTO(persistedEmployee);
     employeeDTO.setDateOfBirth("2000-12-12");
@@ -288,6 +334,7 @@ class EmployeeControllerIT {
   }
 
   @Test
+  @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
   public void shouldUpdateExistingEmployeeForDepartment() throws Exception {
     var newDepartment = departmentRepository.save(Department.builder().name("marketing").build());
     var employeeDTO = EmployeeMapper.toEmployeeDTO(persistedEmployee);
@@ -296,6 +343,7 @@ class EmployeeControllerIT {
   }
 
   @Test
+  @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
   public void shouldThrowExceptionWhileUpdateEmployeeForEmail() throws Exception {
     var employeeDTO = EmployeeMapper.toEmployeeDTO(persistedEmployee);
     employeeDTO.setEmail("new.mail@mail.com");

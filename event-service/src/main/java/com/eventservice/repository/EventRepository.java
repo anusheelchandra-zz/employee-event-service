@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface EventRepository extends CrudRepository<Event, Long> {
+public interface EventRepository extends CrudRepository<Event, String> {
 
   List<Event> findAllByEmployeeUuid(String employeeUuid, Sort sort);
 }

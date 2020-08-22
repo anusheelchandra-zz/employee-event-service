@@ -25,6 +25,7 @@
     <junit.platform.engine.version>1.6.2</junit.platform.engine.version>
     <mockito.version>2.24.0</mockito.version>
     <assertj.version>3.15.0</assertj.version>
+    <spring.security.test.version>5.3.4.RELEASE</spring.security.test.version>
   </properties>
 
   <dependencies>
@@ -94,6 +95,12 @@
       <version>${springfox.version}</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-test</artifactId>
+      <version>${spring.security.test.version}</version>
+      <scope>test</scope>
+    </dependency>
     <dependency>
       <groupId>org.junit.platform</groupId>
       <artifactId>junit-platform-launcher</artifactId>
