@@ -1,7 +1,7 @@
 
 sh ./stop_app.sh
 
-echo "starting the applciation .Plesse wait ......"
+echo "starting the application .Plesse wait ......"
 docker-compose up -d
 
 echo "waiting for application to start in 30 secs .."
