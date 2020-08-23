@@ -30,10 +30,7 @@ public class EventController {
 
   private final EventService eventService;
 
-  @GetMapping(
-      value = "/event/{uuid}",
-      consumes = MediaType.APPLICATION_JSON_VALUE,
-      produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = "/event/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseStatus(HttpStatus.OK)
   @ApiOperation(value = "Event Controller to get all event by uuid")
   @ApiResponses(value = {@ApiResponse(code = 200, message = "Events returned")})

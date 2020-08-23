@@ -6,7 +6,6 @@ It exposes a Rest Api for interaction, check Swagger for more details of Api and
 Swagger: 
         localhost:8080
 ``` 
-
 ### Topics
   * [Assumptions](#assumptions)
   * [What does it do ?](#technical-details)

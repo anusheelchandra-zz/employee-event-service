@@ -32,10 +32,7 @@ public class EmployeeController {
 
   private final EmployeeService employeeService;
 
-  @GetMapping(
-      value = "/employee/{uuid}",
-      consumes = MediaType.APPLICATION_JSON_VALUE,
-      produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = "/employee/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseStatus(HttpStatus.OK)
   @ApiOperation(value = "Employee Controller to get employee by uuid")
   @ApiResponses(value = {@ApiResponse(code = 200, message = "Employee returned")})
