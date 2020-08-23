@@ -1,5 +1,5 @@
 # Event-service
-The spring boot java microservice allows you run read all the event publishe for actions taken on employee i.e. CREATE, UPDATE and DELETE.
+The spring boot java microservice allows you to read all the event published for actions taken on employee i.e. CREATE, UPDATE and DELETE.
 This service listens to all the event published by [Employee-Service](https://github.com/anusheelchandra/employee-event-service/tree/master/employee-service) using RabbitMQ exchange.
 It exposes a Rest Api for interaction, check Swagger for more details of Api and Models.
 

@@ -1,5 +1,5 @@
 # Employee-service
-The spring boot java microservice allows you run create departments and then add, update and delete employee to it.
+The spring boot java microservice allows you to create departments and then add, update and delete employee to it.
 It exposes a Rest Api for interaction, check Swagger for more details of Api and Models.
 
 ```
@@ -14,8 +14,8 @@ Swagger:
   * [Screen-shot](#screen-shot)
   
 ###  [Assumptions](#assumptions)  
-1. This service only published employee UUID, Type(Create, Update or Delete) and timestamp.
-2. First there are multiple validation i have added to allow valid data for department and employee attributes.
+1. This service only publishes employee UUID, Type(Create, Update or Delete) and timestamp.
+2. There are multiple validation that have added to allow valid data for department and employee attributes.
 3. Email of an employee cannot be updated as it is unique.
 4. Basic authentication is enabled for Create, Update & Delete (user: admin, password: admin).
 5. If you try to create or update department of an employee which doesnt exist , error is returned.

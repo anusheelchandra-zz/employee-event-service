@@ -1,5 +1,5 @@
 # Employee-Event-service
-This parent project of two independent microservices employee-service and event-service.
+This parent project of two independent microservices i.e. employee-service and event-service.
 For for more details please click on below two links where you have details README file for each service
  
 1. [Employee-Service](https://github.com/anusheelchandra/employee-event-service/tree/master/employee-service)
